@@ -9,7 +9,7 @@ const entries = [
     tags: ['React.js', 'NodeJS (NestJS, AdonisJS, ExpressJS)', 'PostgreSQL', 'Reddis', 'EventStream', 'GCP', 'BullMQ', 'ComfyAI'],
     bullets: [
       { text: 'Built high-performance frontend architectures with React (Redux)' },
-      { text: 'Owned Image Generation Feature', hl: 'reduced delivery turnaround by 20%.' },
+      { text: 'Owned Image Generation Feature - ', hl: 'reduced delivery turnaround by 20%.' },
     ],
   },
   {
