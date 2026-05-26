@@ -1,0 +1,492 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:var(--color-background-primary);
+  --surf:var(--color-background-secondary);
+  --bdr:var(--color-border-tertiary);
+  --bdr2:var(--color-border-secondary);
+  --bdr1:var(--color-border-primary);
+  --tx:var(--color-text-primary);
+  --tx2:var(--color-text-secondary);
+  --tx3:var(--color-text-tertiary);
+  --info-bg:var(--color-background-info);
+  --info-tx:var(--color-text-info);
+  --grn:var(--color-text-success);
+  --acc:#3B5BDB;
+  --acc-t:rgba(59,91,219,0.08);
+  --acc-b:rgba(59,91,219,0.22);
+  --fh:'Syne',sans-serif;
+  --fb:'DM Sans',sans-serif;
+  --r:var(--border-radius-lg);
+  --r2:var(--border-radius-md);
+  --px:2rem;
+  --max:960px;
+}
+@media(prefers-color-scheme:dark){
+  :root{--acc:#7B96FF;--acc-t:rgba(123,150,255,0.10);--acc-b:rgba(123,150,255,0.25)}
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);font-size:15px;line-height:1.65;overflow-x:hidden}
+
+/* ICON BASELINE — ensures all Tabler icons never shift with adjacent text */
+i.ti{display:inline-flex;align-items:center;justify-content:center;line-height:1;flex-shrink:0;vertical-align:middle}
+
+/* ACCESSIBILITY — visible focus ring for keyboard nav */
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:var(--r2)}
+
+/* ── NAV ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0.85rem var(--px);border-bottom:0.5px solid var(--bdr);background:var(--bg)}
+.logo{font-family:var(--fh);font-size:1.05rem;font-weight:800;letter-spacing:-0.02em;color:var(--tx);text-decoration:none}
+.logo span{color:var(--acc)}
+.nav-r{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:flex;gap:1.4rem;list-style:none;align-items:center}
+.nav-links a{color:var(--tx2);text-decoration:none;font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;font-weight:500;transition:color 0.2s;padding:2px 0}
+.nav-links a:hover{color:var(--acc)}
+.nav-btn{background:var(--acc);color:#fff;padding:0.4rem 1rem;border-radius:var(--r2);font-size:0.78rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:opacity 0.2s;white-space:nowrap}
+.nav-btn:hover{opacity:0.85}
+.hbtn{display:none;align-items:center;justify-content:center;background:none;border:0.5px solid var(--bdr);border-radius:var(--r2);color:var(--tx2);cursor:pointer;width:34px;height:34px;transition:border-color 0.2s}
+.hbtn:hover{border-color:var(--bdr2);color:var(--tx)}
+.hbtn i{font-size:18px}
+
+/* Mobile menu — slides in with max-height transition */
+.mob-menu{max-height:0;overflow:hidden;transition:max-height 0.28s ease;background:var(--bg);border-bottom:0.5px solid transparent}
+.mob-menu.open{max-height:340px;border-bottom-color:var(--bdr)}
+.mob-menu a{display:flex;align-items:center;padding:0.8rem var(--px);font-size:0.88rem;color:var(--tx2);text-decoration:none;border-bottom:0.5px solid var(--bdr);font-weight:400;transition:color 0.2s,background 0.2s}
+.mob-menu a:hover{color:var(--acc);background:var(--acc-t)}
+.mob-menu a:last-child{color:var(--acc);font-weight:600;border-bottom:none}
+
+/* ── LAYOUT ── */
+.w{max-width:var(--max);margin:0 auto;padding:0 var(--px)}
+.sec{padding:2.8rem 0}
+.stag{font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--acc);margin-bottom:0.4rem}
+h2{font-family:var(--fh);font-size:clamp(1.3rem,2.2vw,1.85rem);font-weight:800;letter-spacing:-0.025em;color:var(--tx);line-height:1.15;margin-bottom:1.4rem}
+.sep{height:0.5px;background:var(--bdr)}
+.alt-bg{background:var(--surf)}
+
+/* ── HERO ── */
+.hero{padding:2.8rem var(--px) 2.4rem;max-width:var(--max);margin:0 auto}
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--acc-t);border:0.5px solid var(--acc-b);color:var(--acc);padding:0.3rem 0.9rem;border-radius:100px;font-size:0.73rem;font-weight:600;letter-spacing:0.03em;margin-bottom:1.2rem}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--grn);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+h1{font-family:var(--fh);font-size:clamp(1.9rem,4.5vw,3.2rem);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:0.9rem;color:var(--tx)}
+h1 em{color:var(--acc);font-style:normal}
+.hero-sub{font-size:0.93rem;color:var(--tx2);max-width:500px;line-height:1.8;margin-bottom:1.6rem;font-weight:300}
+.btns{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.btn-p{background:var(--acc);color:#fff;padding:0.62rem 1.4rem;border-radius:var(--r2);font-weight:600;font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:opacity 0.2s;white-space:nowrap}
+.btn-p:hover{opacity:0.85}
+.btn-o{background:transparent;color:var(--tx);padding:0.62rem 1.4rem;border-radius:var(--r2);font-weight:500;font-size:0.85rem;text-decoration:none;border:0.5px solid var(--bdr2);display:inline-flex;align-items:center;gap:6px;transition:border-color 0.2s,color 0.2s;white-space:nowrap}
+.btn-o:hover{border-color:var(--acc);color:var(--acc)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:0.5px solid var(--bdr);border-radius:var(--r);overflow:hidden;background:var(--surf)}
+.stat{padding:0.9rem 1rem;border-right:0.5px solid var(--bdr)}
+.stat:last-child{border-right:none}
+.snum{font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--tx);line-height:1}
+.slbl{font-size:0.68rem;color:var(--tx2);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.22rem}
+
+/* ── ABOUT ── */
+.about-g{display:grid;grid-template-columns:1fr 285px;gap:2rem;align-items:start}
+.ap{font-size:0.88rem;color:var(--tx2);line-height:1.85;margin-bottom:0.8rem;font-weight:300}
+.ap strong{color:var(--tx);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:0.38rem;margin-top:1rem}
+.chip{background:var(--surf);border:0.5px solid var(--bdr);color:var(--tx2);padding:0.25rem 0.72rem;border-radius:100px;font-size:0.73rem;font-weight:400}
+.acard{background:var(--surf);border:0.5px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.acard-top{display:flex;align-items:center;gap:0.9rem;padding:1.1rem 1.15rem;border-bottom:0.5px solid var(--bdr)}
+.av{width:44px;height:44px;border-radius:50%;background:var(--info-bg);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:0.88rem;font-weight:800;color:var(--info-tx);flex-shrink:0}
+.aname{font-family:var(--fh);font-size:0.9rem;font-weight:800;color:var(--tx);margin-bottom:0.1rem}
+.arole{font-size:0.72rem;color:var(--acc);font-weight:500}
+.acard-body{padding:0.85rem 1.15rem}
+.arow{display:flex;align-items:center;gap:8px;font-size:0.79rem;color:var(--tx2);padding:0.3rem 0;border-bottom:0.5px solid var(--bdr)}
+.arow:last-child{border-bottom:none}
+.arow i{font-size:14px;color:var(--tx3);width:16px;text-align:center;flex-shrink:0}
+.arow span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acard-links{display:flex;gap:0.5rem;padding:0.8rem 1.15rem;border-top:0.5px solid var(--bdr)}
+.alink{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:0.4rem;border:0.5px solid var(--bdr);border-radius:var(--r2);font-size:0.74rem;font-weight:500;color:var(--tx2);text-decoration:none;transition:border-color 0.2s,color 0.2s,background 0.2s}
+.alink i{font-size:14px}
+.alink:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-t)}
+
+/* ── EXPERIENCE ── */
+.tl{position:relative;padding-left:1.4rem}
+.tl::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:var(--bdr2)}
+.ti{position:relative;padding-bottom:1.4rem}
+.ti:last-child{padding-bottom:0}
+
+/* Dot uses alt-bg color to match section background */
+.td{position:absolute;left:-1.9rem;top:4px;width:9px;height:9px;border-radius:50%;background:var(--acc);border:2px solid var(--surf)}
+
+.tc{background:var(--bg);border:0.5px solid var(--bdr);border-radius:var(--r);padding:1.25rem;transition:border-color 0.2s}
+.tc:hover{border-color:var(--bdr2)}
+.tc-head{display:flex;justify-content:space-between;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.2rem}
+.tc-role{font-family:var(--fh);font-size:0.92rem;font-weight:800;color:var(--tx)}
+.tc-date{font-size:0.69rem;color:var(--tx2);background:var(--surf);padding:0.2rem 0.6rem;border-radius:100px;border:0.5px solid var(--bdr);white-space:nowrap;flex-shrink:0}
+.tc-co{font-size:0.78rem;color:var(--acc);font-weight:600;margin-bottom:0.18rem}
+.tc-proj{font-size:0.75rem;color:var(--tx3);margin-bottom:0.7rem;font-style:italic}
+.tags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.8rem}
+.tag{background:var(--acc-t);color:var(--acc);padding:0.17rem 0.55rem;border-radius:var(--r2);font-size:0.69rem;font-weight:600}
+.bul{list-style:none;display:flex;flex-direction:column;gap:0.22rem}
+.bul li{font-size:0.83rem;color:var(--tx2);padding-left:1rem;position:relative;line-height:1.6}
+.bul li::before{content:'–';position:absolute;left:0;color:var(--tx3)}
+.bul li b{color:var(--grn);font-weight:600}
+
+/* ── PROJECTS ── */
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.9rem}
+.pc{background:var(--surf);border:0.5px solid var(--bdr);border-radius:var(--r);padding:1.2rem;transition:border-color 0.2s,background 0.2s}
+.pc:hover{border-color:var(--bdr2);background:var(--bg)}
+.pc-icon{width:36px;height:36px;border-radius:var(--r2);background:var(--info-bg);display:flex;align-items:center;justify-content:center;color:var(--info-tx);margin-bottom:0.9rem;flex-shrink:0}
+.pc-icon i{font-size:17px}
+.pc-name{font-family:var(--fh);font-size:0.9rem;font-weight:800;color:var(--tx);margin-bottom:0.12rem}
+.pc-client{font-size:0.69rem;color:var(--acc);font-weight:600;margin-bottom:0.55rem;text-transform:uppercase;letter-spacing:0.04em}
+.pc-desc{font-size:0.81rem;color:var(--tx2);line-height:1.65;margin-bottom:0.85rem}
+
+/* ── SKILLS ── */
+.sgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.75rem}
+.sc{background:var(--bg);border:0.5px solid var(--bdr);border-radius:var(--r);padding:1rem 1.1rem}
+.sc-label{display:flex;align-items:center;gap:6px;font-size:0.69rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--acc);margin-bottom:0.75rem}
+.sc-label i{font-size:14px}
+.pills{display:flex;flex-wrap:wrap;gap:0.32rem}
+.pill{background:var(--surf);border:0.5px solid var(--bdr);color:var(--tx2);padding:0.22rem 0.65rem;border-radius:var(--r2);font-size:0.75rem;cursor:default;transition:border-color 0.2s,color 0.2s,background 0.2s}
+.pill:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-t)}
+
+/* ── CONTACT ── */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.c-intro{font-size:0.88rem;color:var(--tx2);line-height:1.85;font-weight:300;margin-bottom:1.1rem}
+.clinks{display:flex;flex-direction:column;gap:0.45rem}
+.clink{display:flex;align-items:center;gap:10px;padding:0.72rem 1rem;background:var(--surf);border:0.5px solid var(--bdr);border-radius:var(--r2);text-decoration:none;color:var(--tx);transition:border-color 0.2s,background 0.2s}
+.clink:hover{border-color:var(--acc);background:var(--acc-t)}
+.clink-ico{width:30px;height:30px;border-radius:var(--r2);background:var(--info-bg);display:flex;align-items:center;justify-content:center;color:var(--info-tx);flex-shrink:0}
+.clink-ico i{font-size:14px}
+.clink-body{display:flex;flex-direction:column;justify-content:center;min-width:0;flex:1}
+.clink-lbl{font-size:0.67rem;color:var(--tx3);text-transform:uppercase;letter-spacing:0.05em;line-height:1.3}
+.clink-val{font-size:0.81rem;font-weight:500;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* FORM — top accent via wrapper, not broken border-radius */
+.cform-wrap{border-radius:var(--r);overflow:hidden;border:0.5px solid var(--bdr)}
+.cform-accent{height:3px;background:var(--acc)}
+.cform{background:var(--surf);padding:1.4rem}
+.fg{margin-bottom:0.88rem}
+.fg label{display:block;font-size:0.76rem;font-weight:500;color:var(--tx2);margin-bottom:0.32rem}
+.fg input,.fg textarea{width:100%;background:var(--bg);border:0.5px solid var(--bdr);color:var(--tx);padding:0.6rem 0.85rem;border-radius:var(--r2);font-family:var(--fb);font-size:0.86rem;outline:none;transition:border-color 0.2s;resize:none;display:block}
+.fg input:focus,.fg textarea:focus{border-color:var(--acc)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--tx3)}
+.fg textarea{height:84px}
+.fsub{width:100%;background:var(--acc);color:#fff;border:none;padding:0.68rem;border-radius:var(--r2);font-family:var(--fh);font-size:0.86rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:7px}
+.fsub i{font-size:15px}
+.fsub:hover{opacity:0.85}
+
+/* ── FOOTER ── */
+footer{border-top:0.5px solid var(--bdr);padding:1.2rem var(--px);display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.f-name{font-family:var(--fh);font-size:0.82rem;font-weight:700;color:var(--tx2)}
+.f-copy{font-size:0.75rem;color:var(--tx3)}
+
+/* ── REVEAL ANIMATION ── */
+.r{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease}
+.r.on{opacity:1;transform:none}
+
+/* ── DESKTOP ≥1024px ── */
+@media(min-width:1024px){
+  :root{--px:2.5rem;--max:1000px}
+}
+
+/* ── LAPTOP 768–1023px ── */
+@media(min-width:768px) and (max-width:1023px){
+  :root{--px:1.8rem}
+  .about-g{grid-template-columns:1fr 260px}
+  .sgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ── TABLET 480–767px ── */
+@media(min-width:480px) and (max-width:767px){
+  :root{--px:1.4rem}
+  .nav-links,.nav-btn{display:none}
+  .hbtn{display:inline-flex}
+  .about-g{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){border-top:0.5px solid var(--bdr)}
+  .stat:nth-child(4){border-top:0.5px solid var(--bdr)}
+  .pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cgrid{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center}
+}
+
+/* ── MOBILE <480px ── */
+@media(max-width:479px){
+  :root{--px:1rem}
+  .nav-links,.nav-btn{display:none}
+  .hbtn{display:inline-flex}
+  h1{font-size:1.9rem}
+  .hero-sub{font-size:0.88rem}
+  .btns{flex-direction:column}
+  .btn-p,.btn-o{width:100%;justify-content:center}
+  .about-g{grid-template-columns:1fr}
+  .arow span{white-space:normal}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){border-top:0.5px solid var(--bdr)}
+  .stat:nth-child(4){border-top:0.5px solid var(--bdr)}
+  .pgrid{grid-template-columns:1fr}
+  .sgrid{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr}
+  .tc-head{flex-direction:column;align-items:flex-start;gap:0.28rem}
+  .clink-val{white-space:normal;word-break:break-all}
+  footer{flex-direction:column;text-align:center}
+}
+</style>
+
+<nav>
+  <a href="#" class="logo">KS<span>.</span></a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#exp">Experience</a></li>
+      <li><a href="#proj">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:Kunalshelke123@gmail.com" class="nav-btn"><i class="ti ti-mail" aria-hidden="true" style="font-size:14px"></i>Hire me</a>
+    <button class="hbtn" id="hbtn" aria-label="Open menu" aria-expanded="false">
+      <i class="ti ti-menu-2" id="hico"></i>
+    </button>
+  </div>
+</nav>
+<div class="mob-menu" id="mmenu" role="navigation" aria-label="Mobile navigation">
+  <a href="#about">About</a>
+  <a href="#exp">Experience</a>
+  <a href="#proj">Projects</a>
+  <a href="#skills">Skills</a>
+  <a href="#contact">Contact</a>
+  <a href="mailto:Kunalshelke123@gmail.com">Hire me</a>
+</div>
+
+<div class="hero r" style="transition-delay:0.05s">
+  <div class="badge"><span class="bdot"></span>Open to Senior Roles · Mumbai / Pune / Bangalore</div>
+  <h1>Hi, I'm Kunal Shelke.<br><em>Full Stack Engineer</em><br>who ships at scale.</h1>
+  <p class="hero-sub">5 years building production-grade SaaS with React, Node.js, and cloud platforms — across fintech, IoT, and OTT domains.</p>
+  <div class="btns">
+    <a href="#proj" class="btn-p"><i class="ti ti-layout-grid" aria-hidden="true" style="font-size:15px"></i>View Projects</a>
+    <a href="#contact" class="btn-o"><i class="ti ti-mail" aria-hidden="true" style="font-size:15px"></i>Get in touch</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="snum">5+</div><div class="slbl">Years exp</div></div>
+    <div class="stat"><div class="snum">40%</div><div class="slbl">Perf. gains</div></div>
+    <div class="stat"><div class="snum">100%</div><div class="slbl">On-time delivery</div></div>
+    <div class="stat"><div class="snum">3</div><div class="slbl">Domains shipped</div></div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="w"><div class="sec" id="about">
+  <div class="r"><div class="stag">About me</div>
+  <h2>Engineer by craft,<br>problem solver by nature.</h2></div>
+  <div class="about-g">
+    <div class="r">
+      <p class="ap">I'm a <strong>Senior Full Stack Engineer</strong> with 5 years building production-grade SaaS. I specialise in React, Node.js (NestJS / Express), and cloud platforms including GCP and AWS.</p>
+      <p class="ap">My work spans <strong>fintech, smart pool management (IoT), and OTT platforms</strong> — each demanding a different approach to architecture and performance. I deliver measurable outcomes: 40%+ performance improvements and zero-miss sprint delivery.</p>
+      <p class="ap">Beyond engineering, I enjoy <strong>mentoring developers</strong>, leading technical client conversations, and contributing to system design decisions that define the product long-term.</p>
+      <div class="chips">
+        <span class="chip">Microservices</span><span class="chip">GraphQL</span><span class="chip">System Design</span><span class="chip">Agile / Scrum</span><span class="chip">Technical Leadership</span><span class="chip">Client-Facing</span>
+      </div>
+    </div>
+    <div class="acard r">
+      <div class="acard-top">
+        <div class="av">KS</div>
+        <div><div class="aname">Kunal Shelke</div><div class="arole">Senior Full Stack Engineer</div></div>
+      </div>
+      <div class="acard-body">
+        <div class="arow"><i class="ti ti-map-pin" aria-hidden="true"></i><span>Mumbai · Pune · Bangalore</span></div>
+        <div class="arow"><i class="ti ti-mail" aria-hidden="true"></i><span>Kunalshelke123@gmail.com</span></div>
+        <div class="arow"><i class="ti ti-school" aria-hidden="true"></i><span>B.Sc. CS — Mumbai Univ. 2021 · GPA 8.4</span></div>
+        <div class="arow"><i class="ti ti-language" aria-hidden="true"></i><span>English · Hindi · Marathi · Spanish</span></div>
+      </div>
+      <div class="acard-links">
+        <a href="https://github.com/kunaljr" target="_blank" rel="noopener" class="alink"><i class="ti ti-brand-github" aria-hidden="true"></i>GitHub</a>
+        <a href="https://www.linkedin.com/in/kunal-shelke-47a5841a2/" target="_blank" rel="noopener" class="alink"><i class="ti ti-brand-linkedin" aria-hidden="true"></i>LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="sep"></div>
+
+<div class="alt-bg" id="exp"><div class="w"><div class="sec">
+  <div class="r"><div class="stag">Work Experience</div>
+  <h2>Where I've built things.</h2></div>
+  <div class="tl">
+
+    <div class="ti r">
+      <div class="td"></div>
+      <div class="tc">
+        <div class="tc-head">
+          <div class="tc-role">Senior Software Engineer</div>
+          <div class="tc-date">Aug 2025 – Present</div>
+        </div>
+        <div class="tc-co">Sia-Partners, Mumbai</div>
+        <div class="tc-proj">Stratumn – Enterprise Workflow Management Application</div>
+        <div class="tags"><span class="tag">React.js</span><span class="tag">Vue.js</span><span class="tag">NestJS</span><span class="tag">GraphQL</span><span class="tag">PostgreSQL</span><span class="tag">AWS</span><span class="tag">RabbitMQ</span></div>
+        <ul class="bul">
+          <li>Built high-performance frontend architectures with React (Redux) and Vue 3 (Pinia).</li>
+          <li>Owned Mastercom Extended API integration end-to-end — <b>reduced delivery turnaround by 20%.</b></li>
+          <li>Delivered 3 client feature enhancements across sprint cycles — <b>100% on-time delivery record.</b></li>
+          <li>Mentored 2 junior developers on NestJS patterns — <b>reduced PR review cycles by 30%.</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ti r">
+      <div class="td"></div>
+      <div class="tc">
+        <div class="tc-head">
+          <div class="tc-role">Senior Software Engineer</div>
+          <div class="tc-date">Sep 2022 – Jun 2025</div>
+        </div>
+        <div class="tc-co">Pegasus Infocorp, Mumbai</div>
+        <div class="tc-proj">Liqua – Cloud-Native SaaS for Smart Pool Management</div>
+        <div class="tags"><span class="tag">Vue 3</span><span class="tag">React.js</span><span class="tag">NestJS</span><span class="tag">tRPC</span><span class="tag">GCP</span><span class="tag">Firestore</span><span class="tag">TypeScript</span></div>
+        <ul class="bul">
+          <li>Engineered reusable UI components — <b>40% improvement in front-end performance.</b></li>
+          <li>Orchestrated RESTful microservices with Firestore for IoT telemetry and financial data.</li>
+          <li>Integrated Xero, MYOB, LIGHTSPEED, SendGrid, and Twilio — reducing reconciliation effort.</li>
+          <li>Led migration of legacy SQL datasets to Firestore via Google Cloud Run functions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ti r">
+      <div class="td"></div>
+      <div class="tc">
+        <div class="tc-head">
+          <div class="tc-role">Full Stack Developer</div>
+          <div class="tc-date">Apr 2021 – Aug 2022</div>
+        </div>
+        <div class="tc-co">Playbulous, Mumbai</div>
+        <div class="tc-proj">Enterprise OTT SaaS Platform for EdTech & Entertainment</div>
+        <div class="tags"><span class="tag">React.js</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">PostgreSQL</span><span class="tag">AWS S3/EC2</span><span class="tag">Elasticsearch</span><span class="tag">Kafka</span></div>
+        <ul class="bul">
+          <li>Architected a multi-tenant OTT SaaS with adaptive video streaming and subscription billing.</li>
+          <li>Designed secure billing infrastructure integrated with payment gateways, backed by MongoDB.</li>
+          <li>Deployed AWS S3 for media storage, EC2 for backend, Elasticsearch for content discovery.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div></div></div>
+
+<div class="sep"></div>
+
+<div class="w"><div class="sec" id="proj">
+  <div class="r"><div class="stag">Projects</div>
+  <h2>Things I've shipped.</h2></div>
+  <div class="pgrid">
+    <div class="pc r">
+      <div class="pc-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+      <div class="pc-name">Stratumn</div>
+      <div class="pc-client">Sia-Partners · Workflow SaaS</div>
+      <p class="pc-desc">Enterprise workflow management for a global consulting firm. Microservices, GraphQL APIs, and secure client-facing integrations.</p>
+      <div class="tags"><span class="tag">React.js</span><span class="tag">NestJS</span><span class="tag">GraphQL</span><span class="tag">AWS</span></div>
+    </div>
+    <div class="pc r">
+      <div class="pc-icon"><i class="ti ti-droplet" aria-hidden="true"></i></div>
+      <div class="pc-name">Liqua</div>
+      <div class="pc-client">Pegasus · IoT / Fintech</div>
+      <p class="pc-desc">Cloud-native SaaS managing IoT telemetry, memberships, and financial workflows. Integrated Xero, MYOB, LIGHTSPEED, and Twilio.</p>
+      <div class="tags"><span class="tag">Vue 3</span><span class="tag">tRPC</span><span class="tag">GCP</span><span class="tag">Firestore</span></div>
+    </div>
+    <div class="pc r">
+      <div class="pc-icon"><i class="ti ti-device-tv" aria-hidden="true"></i></div>
+      <div class="pc-name">OTT Platform</div>
+      <div class="pc-client">Playbulous · EdTech / OTT</div>
+      <p class="pc-desc">Multi-tenant OTT platform with adaptive streaming, subscription billing, and cross-platform delivery for EdTech and entertainment.</p>
+      <div class="tags"><span class="tag">React.js</span><span class="tag">Kafka</span><span class="tag">AWS</span><span class="tag">Elasticsearch</span></div>
+    </div>
+  </div>
+</div></div>
+
+<div class="sep"></div>
+
+<div class="alt-bg" id="skills"><div class="w"><div class="sec">
+  <div class="r"><div class="stag">Skills</div>
+  <h2>The full stack of it.</h2></div>
+  <div class="sgrid">
+    <div class="sc r"><div class="sc-label"><i class="ti ti-layout" aria-hidden="true"></i>Frontend</div><div class="pills"><span class="pill">React.js</span><span class="pill">Vue 3</span><span class="pill">Redux</span><span class="pill">Pinia</span><span class="pill">TypeScript</span><span class="pill">JavaScript</span><span class="pill">HTML5</span><span class="pill">CSS3</span></div></div>
+    <div class="sc r"><div class="sc-label"><i class="ti ti-server" aria-hidden="true"></i>Backend</div><div class="pills"><span class="pill">Node.js</span><span class="pill">NestJS</span><span class="pill">Express.js</span><span class="pill">GraphQL</span><span class="pill">tRPC</span><span class="pill">gRPC</span><span class="pill">REST APIs</span></div></div>
+    <div class="sc r"><div class="sc-label"><i class="ti ti-database" aria-hidden="true"></i>Databases</div><div class="pills"><span class="pill">PostgreSQL</span><span class="pill">MongoDB</span><span class="pill">Firebase Firestore</span></div></div>
+    <div class="sc r"><div class="sc-label"><i class="ti ti-cloud" aria-hidden="true"></i>Cloud & DevOps</div><div class="pills"><span class="pill">AWS S3</span><span class="pill">AWS EC2</span><span class="pill">GCP Cloud Run</span><span class="pill">Docker</span><span class="pill">CI/CD</span><span class="pill">GitLab</span></div></div>
+    <div class="sc r"><div class="sc-label"><i class="ti ti-topology-star-3" aria-hidden="true"></i>Messaging & Testing</div><div class="pills"><span class="pill">RabbitMQ</span><span class="pill">Kafka</span><span class="pill">Jest</span><span class="pill">Supertest</span><span class="pill">RTL</span></div></div>
+    <div class="sc r"><div class="sc-label"><i class="ti ti-bulb" aria-hidden="true"></i>Concepts & Tools</div><div class="pills"><span class="pill">Microservices</span><span class="pill">System Design</span><span class="pill">DSA</span><span class="pill">Agile</span><span class="pill">JIRA</span><span class="pill">Linear</span></div></div>
+  </div>
+</div></div></div>
+
+<div class="sep"></div>
+
+<div class="w"><div class="sec" id="contact">
+  <div class="r"><div class="stag">Contact</div>
+  <h2>Let's work together.</h2></div>
+  <div class="cgrid">
+    <div class="r">
+      <p class="c-intro">I'm currently open to Senior Engineer roles in Mumbai, Pune, or Bangalore. If you're building something ambitious and need a full-stack engineer who ships with precision — let's talk.</p>
+      <div class="clinks">
+        <a href="mailto:Kunalshelke123@gmail.com" class="clink">
+          <div class="clink-ico"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div class="clink-body"><span class="clink-lbl">Email</span><span class="clink-val">Kunalshelke123@gmail.com</span></div>
+          <i class="ti ti-arrow-right" aria-hidden="true" style="font-size:14px;color:var(--tx3);margin-left:auto"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/kunal-shelke-47a5841a2/" target="_blank" rel="noopener" class="clink">
+          <div class="clink-ico"><i class="ti ti-brand-linkedin" aria-hidden="true"></i></div>
+          <div class="clink-body"><span class="clink-lbl">LinkedIn</span><span class="clink-val">kunal-shelke-47a5841a2</span></div>
+          <i class="ti ti-arrow-right" aria-hidden="true" style="font-size:14px;color:var(--tx3);margin-left:auto"></i>
+        </a>
+        <a href="https://github.com/kunaljr" target="_blank" rel="noopener" class="clink">
+          <div class="clink-ico"><i class="ti ti-brand-github" aria-hidden="true"></i></div>
+          <div class="clink-body"><span class="clink-lbl">GitHub</span><span class="clink-val">github.com/kunaljr</span></div>
+          <i class="ti ti-arrow-right" aria-hidden="true" style="font-size:14px;color:var(--tx3);margin-left:auto"></i>
+        </a>
+        <div class="clink" style="cursor:default">
+          <div class="clink-ico"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+          <div class="clink-body"><span class="clink-lbl">Location</span><span class="clink-val">Mumbai · Pune · Bangalore</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="r">
+      <div class="cform-wrap">
+        <div class="cform-accent"></div>
+        <div class="cform">
+          <div class="fg"><label for="f-name">Your name</label><input id="f-name" type="text" placeholder="Jane Smith" autocomplete="name"></div>
+          <div class="fg"><label for="f-email">Email address</label><input id="f-email" type="email" placeholder="jane@company.com" autocomplete="email"></div>
+          <div class="fg"><label for="f-msg">Message</label><textarea id="f-msg" placeholder="Tell me about the role or project…"></textarea></div>
+          <button type="button" class="fsub"><i class="ti ti-send" aria-hidden="true"></i>Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<footer>
+  <span class="f-name">Kunal Shelke</span>
+  <span class="f-copy">© 2026 · Open to opportunities · Mumbai / Pune / Bangalore</span>
+</footer>
+
+<script>
+const hbtn=document.getElementById('hbtn');
+const mmenu=document.getElementById('mmenu');
+const hico=document.getElementById('hico');
+hbtn.addEventListener('click',()=>{
+  const open=mmenu.classList.toggle('open');
+  hico.className=open?'ti ti-x':'ti ti-menu-2';
+  hbtn.setAttribute('aria-expanded',String(open));
+  hbtn.setAttribute('aria-label',open?'Close menu':'Open menu');
+});
+mmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  mmenu.classList.remove('open');
+  hico.className='ti ti-menu-2';
+  hbtn.setAttribute('aria-expanded','false');
+  hbtn.setAttribute('aria-label','Open menu');
+}));
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}});
+},{threshold:0.08});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
