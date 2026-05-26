@@ -33,12 +33,7 @@ function Toast({ onDone }: { onDone: () => void }) {
       transition={{ type: 'spring', stiffness: 320, damping: 28 }}
     >
       <IconMail size={16} style={{ color: 'var(--acc)', flexShrink: 0, marginTop: 1 }} aria-hidden />
-      <span className="toast-msg">
-        Please email me directly at{' '}
-        <a href="mailto:Kunalshelke123@gmail.com" style={{ color: 'var(--acc)', fontWeight: 500 }}>
-          Kunalshelke123@gmail.com
-        </a>
-      </span>
+      <span className="toast-msg">Message sent — I&apos;ll get back to you soon.</span>
     </motion.div>
   )
 }
@@ -56,13 +51,37 @@ export default function Contact() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [errors, setErrors] = useState<FormErrors>({})
+  const [submitting, setSubmitting] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
   const [showToast, setShowToast] = useState(false)
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const errs = validate(name, email, message)
     setErrors(errs)
-    if (Object.keys(errs).length === 0) {
-      setShowToast(true)
+    if (Object.keys(errs).length > 0) return
+
+    setSubmitting(true)
+    setFormError(null)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      if (res.ok) {
+        setName('')
+        setEmail('')
+        setMessage('')
+        setShowToast(true)
+      } else {
+        setFormError('Something went wrong. Please try again.')
+      }
+    } catch {
+      setFormError('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -178,9 +197,10 @@ export default function Contact() {
                   />
                   {errors.message && <span className="ferr">{errors.message}</span>}
                 </div>
-                <button type="button" className="fsub" onClick={handleSubmit}>
+                {formError && <span className="ferr">{formError}</span>}
+                <button type="button" className="fsub" onClick={handleSubmit} disabled={submitting}>
                   <IconSend size={15} aria-hidden />
-                  Send Message
+                  {submitting ? 'Sending…' : 'Send Message'}
                 </button>
               </div>
             </div>
