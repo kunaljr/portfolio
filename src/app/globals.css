@@ -27,6 +27,7 @@
   --info-bg: var(--color-background-info);
   --info-tx: var(--color-text-info);
   --grn:     var(--color-text-success);
+  --red:     #e5534b;
   --acc:     #3B5BDB;
   --acc-t:   rgba(59,91,219,0.08);
   --acc-b:   rgba(59,91,219,0.22);
@@ -52,6 +53,7 @@
     --color-background-info:      #121d2f;
     --color-text-info:            #79c0ff;
     --color-text-success:         #3fb950;
+    --red:   #f85149;
     --acc:   #7B96FF;
     --acc-t: rgba(123,150,255,0.10);
     --acc-b: rgba(123,150,255,0.25);
@@ -218,6 +220,10 @@ h1 em { color: var(--acc); font-style: normal; }
 .fg textarea { height: 84px; }
 .fsub { width: 100%; background: var(--acc); color: #fff; border: none; padding: 0.68rem; border-radius: var(--r2); font-family: var(--fh); font-size: 0.86rem; font-weight: 700; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 7px; }
 .fsub:hover { opacity: 0.85; }
+.ferr { font-size: 0.73rem; color: var(--red); margin-top: 0.22rem; display: block; }
+.fg input.err, .fg textarea.err { border-color: var(--red); }
+.toast { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200; background: var(--surf); border: 0.5px solid var(--bdr); border-radius: var(--r2); padding: 0.75rem 1rem; display: flex; align-items: flex-start; gap: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); max-width: 340px; }
+.toast-msg { font-size: 0.82rem; color: var(--tx); line-height: 1.5; }
 
 /* ── FOOTER ── */
 footer { border-top: 0.5px solid var(--bdr); padding: 1.2rem var(--px); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
