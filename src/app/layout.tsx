@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const syne = Syne({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["700", "800"],
-  variable: "--font-syne",
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${plusJakartaSans.variable} ${dmSans.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -3,7 +3,18 @@ import Reveal, { RevealGroup, RevealItem } from './Reveal'
 const entries = [
   {
     role: 'Senior Software Engineer',
-    date: 'Aug 2025 – Present',
+    date: 'May 2026 – Present',
+    company: 'Eccentric, Mumbai',
+    project: 'EchoAI - For automotive',
+    tags: ['React.js', 'NodeJS (NestJS, AdonisJS, ExpressJS)', 'PostgreSQL', 'Reddis', 'EventStream', 'GCP', 'BullMQ', 'ComfyAI'],
+    bullets: [
+      { text: 'Built high-performance frontend architectures with React (Redux)' },
+      { text: 'Owned Image Generation Feature', hl: 'reduced delivery turnaround by 20%.' },
+    ],
+  },
+  {
+    role: 'Senior Software Engineer',
+    date: 'Aug 2025 – Feb 2026',
     company: 'Sia-Partners, Mumbai',
     project: 'Stratumn – Enterprise Workflow Management Application',
     tags: ['React.js', 'Vue.js', 'NestJS', 'GraphQL', 'PostgreSQL', 'AWS', 'RabbitMQ'],

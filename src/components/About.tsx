@@ -39,10 +39,12 @@ export default function About() {
               design decisions that define the product long-term.
             </p>
             <div className="chips">
-              <span className="chip">Microservices</span>
-              <span className="chip">GraphQL</span>
+              <span className="chip">GenAI</span>
               <span className="chip">System Design</span>
+              <span className="chip">Data Structures</span>
+              <span className="chip">Microservices</span>
               <span className="chip">Agile / Scrum</span>
+              <span className="chip">REST, GraphQL, GRPC</span>
               <span className="chip">Technical Leadership</span>
               <span className="chip">Client-Facing</span>
             </div>
