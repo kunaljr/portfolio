@@ -84,6 +84,11 @@ body::before {
 :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; border-radius: var(--r2); }
 
 /* ── NAV ── */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 nav {
   display: flex;
   align-items: center;
@@ -93,9 +98,6 @@ nav {
   background: color-mix(in srgb, var(--bg) 75%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 .logo { font-family: var(--fh); font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; color: var(--tx); text-decoration: none; }
 .logo span { color: var(--acc); }
@@ -109,7 +111,7 @@ nav {
 .hbtn:hover { border-color: var(--bdr2); color: var(--tx); }
 
 /* Mobile menu — slides in with max-height transition */
-.mob-menu { max-height: 0; overflow: hidden; transition: max-height 0.28s ease; background: var(--bg); border-bottom: 0.5px solid transparent; }
+.mob-menu { max-height: 0; overflow: hidden; transition: max-height 0.28s ease; background: color-mix(in srgb, var(--bg) 75%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 0.5px solid transparent; }
 .mob-menu.open { max-height: 340px; border-bottom-color: var(--bdr); }
 .mob-menu a { display: flex; align-items: center; padding: 0.8rem var(--px); font-size: 0.88rem; color: var(--tx2); text-decoration: none; border-bottom: 0.5px solid var(--bdr); font-weight: 400; transition: color 0.2s, background 0.2s; }
 .mob-menu a:hover { color: var(--acc); background: var(--acc-t); }

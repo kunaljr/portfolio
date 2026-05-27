@@ -8,7 +8,7 @@ export default function Nav() {
   const close = () => setOpen(false)
 
   return (
-    <>
+    <div className="nav-wrap">
       <nav>
         <a href="#" className="logo">
           KS<span>.</span>
@@ -48,6 +48,6 @@ export default function Nav() {
         <a href="#contact" onClick={close}>Contact</a>
         <a href="mailto:Kunalshelke123@gmail.com" onClick={close}>Hire me</a>
       </div>
-    </>
+    </div>
   )
 }

@@ -1,8 +1,15 @@
-import { IconBolt, IconDroplet, IconDeviceTv } from '@tabler/icons-react'
+import { IconBolt, IconDroplet, IconDeviceTv, IconCar } from '@tabler/icons-react'
 import Reveal, { RevealGroup, RevealItem } from './Reveal'
 import { ReactNode } from 'react'
 
 const projects: { icon: ReactNode; name: string; client: string; desc: string; tags: string[] }[] = [
+  {
+    icon: <IconCar size={17} aria-hidden />,
+    name: 'EchoAI',
+    client: 'Eccentric · Automotive',
+    desc: 'Specialized Generative AI tool designed for automotive marketers to create accurate, on-brand vehicle visuals for any background, color, or market in seconds',
+    tags: ['GenAI', 'AI', 'React.js', 'NestJS', 'GCP'],
+  },
   {
     icon: <IconBolt size={17} aria-hidden />,
     name: 'Stratumn',
