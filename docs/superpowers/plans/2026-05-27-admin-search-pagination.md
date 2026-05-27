@@ -1,3 +1,221 @@
+# Admin Search & Pagination Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Add debounced search (name, email, message) and URL-based pagination (20 per page) to the `/admin` messages page.
+
+**Architecture:** A new `paginationUtils.ts` provides pure helpers (`parsePage`, `buildPaginationPages`) that are unit-tested. A new `SearchBar` Client Component handles debounced input and calls `router.push` to update the URL. The existing Server Component (`page.tsx`) reads `q` and `page` from `searchParams`, queries Supabase with `.or(ilike)` + `.range()` + `{ count: 'exact' }`, and renders the search bar, filtered list, and pagination links.
+
+**Tech Stack:** Next.js 16 App Router, `@supabase/supabase-js` v2, vitest, React `useRouter` / `useState` / `useRef`.
+
+---
+
+## File Map
+
+| Action | Path | Responsibility |
+|---|---|---|
+| Create | `src/app/admin/paginationUtils.ts` | Pure helpers: `parsePage`, `buildPaginationPages` |
+| Create | `src/app/admin/paginationUtils.test.ts` | Unit tests for pagination helpers |
+| Create | `src/app/admin/SearchBar.tsx` | Client Component: debounced input → `router.push` |
+| Modify | `src/app/admin/page.tsx` | Add `q`/`page` params, Supabase search + count + range, render SearchBar + pagination |
+
+---
+
+## Task 1: Pagination utility helpers (TDD)
+
+**Files:**
+- Create: `src/app/admin/paginationUtils.ts`
+- Create: `src/app/admin/paginationUtils.test.ts`
+
+- [ ] **Step 1: Write failing tests**
+
+Create `src/app/admin/paginationUtils.test.ts`:
+
+```ts
+import { describe, it, expect } from 'vitest'
+import { parsePage, buildPaginationPages } from './paginationUtils'
+
+describe('parsePage', () => {
+  it('returns 1 for undefined', () => expect(parsePage(undefined)).toBe(1))
+  it('returns 1 for empty string', () => expect(parsePage('')).toBe(1))
+  it('returns 1 for non-numeric string', () => expect(parsePage('abc')).toBe(1))
+  it('returns 1 for negative numbers', () => expect(parsePage('-3')).toBe(1))
+  it('returns 1 for zero', () => expect(parsePage('0')).toBe(1))
+  it('returns parsed number for valid string', () => expect(parsePage('5')).toBe(5))
+  it('uses first element when value is an array', () => expect(parsePage(['3', '9'])).toBe(3))
+})
+
+describe('buildPaginationPages', () => {
+  it('returns all pages when total <= 7', () => {
+    expect(buildPaginationPages(1, 5)).toEqual([1, 2, 3, 4, 5])
+    expect(buildPaginationPages(3, 7)).toEqual([1, 2, 3, 4, 5, 6, 7])
+  })
+
+  it('returns empty array for 0 total pages', () => {
+    expect(buildPaginationPages(1, 0)).toEqual([])
+  })
+
+  it('truncates end when on page 1 of many', () => {
+    expect(buildPaginationPages(1, 10)).toEqual([1, 2, '...', 10])
+  })
+
+  it('truncates both sides when in middle', () => {
+    expect(buildPaginationPages(5, 10)).toEqual([1, '...', 4, 5, 6, '...', 10])
+  })
+
+  it('truncates start when on last page', () => {
+    expect(buildPaginationPages(10, 10)).toEqual([1, '...', 9, 10])
+  })
+
+  it('no start gap when current is adjacent to first', () => {
+    expect(buildPaginationPages(2, 10)).toEqual([1, 2, 3, '...', 10])
+  })
+
+  it('no end gap when current is adjacent to last', () => {
+    expect(buildPaginationPages(9, 10)).toEqual([1, '...', 8, 9, 10])
+  })
+})
+```
+
+- [ ] **Step 2: Run tests to verify they fail**
+
+```bash
+npm test
+```
+
+Expected: FAIL — `Cannot find module './paginationUtils'`
+
+- [ ] **Step 3: Implement paginationUtils.ts**
+
+Create `src/app/admin/paginationUtils.ts`:
+
+```ts
+export function parsePage(value: string | string[] | undefined): number {
+  const str = Array.isArray(value) ? value[0] : value
+  const n = parseInt(str ?? '', 10)
+  return isNaN(n) || n < 1 ? 1 : n
+}
+
+export function buildPaginationPages(
+  current: number,
+  total: number,
+): Array<number | '...'> {
+  if (total <= 0) return []
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+
+  const pages: Array<number | '...'> = []
+
+  pages.push(1)
+
+  if (current - 1 > 2) pages.push('...')
+
+  const start = Math.max(2, current - 1)
+  const end = Math.min(total - 1, current + 1)
+  for (let i = start; i <= end; i++) pages.push(i)
+
+  if (current + 1 < total - 1) pages.push('...')
+
+  pages.push(total)
+
+  return pages
+}
+```
+
+- [ ] **Step 4: Run tests to verify they pass**
+
+```bash
+npm test
+```
+
+Expected: all tests pass (18 existing + 14 new = 32 total).
+
+- [ ] **Step 5: Do NOT commit** — user commits manually.
+
+---
+
+## Task 2: SearchBar Client Component
+
+**Files:**
+- Create: `src/app/admin/SearchBar.tsx`
+
+No unit tests — this component uses browser hooks (`useRouter`) that require the Next.js runtime. Manual verification in Task 3 covers correctness.
+
+- [ ] **Step 1: Create SearchBar.tsx**
+
+Create `src/app/admin/SearchBar.tsx`:
+
+```tsx
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { useRef, useState } from 'react'
+
+interface SearchBarProps {
+  initialValue: string
+}
+
+export function SearchBar({ initialValue }: SearchBarProps) {
+  const router = useRouter()
+  const [value, setValue] = useState(initialValue)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const next = e.target.value
+    setValue(next)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      const params = new URLSearchParams()
+      if (next.trim()) params.set('q', next.trim())
+      const search = params.toString()
+      router.push(search ? `/admin?${search}` : '/admin')
+    }, 300)
+  }
+
+  return (
+    <input
+      type="search"
+      value={value}
+      onChange={handleChange}
+      placeholder="Search messages…"
+      style={{
+        padding: '0.6rem 0.75rem',
+        border: '0.5px solid var(--bdr)',
+        borderRadius: 'var(--r2)',
+        background: 'var(--bg)',
+        color: 'var(--tx)',
+        fontFamily: 'var(--fb)',
+        fontSize: '0.9rem',
+        outline: 'none',
+        width: '100%',
+        boxSizing: 'border-box' as const,
+      }}
+    />
+  )
+}
+```
+
+- [ ] **Step 2: Run TypeScript check**
+
+```bash
+npx tsc --noEmit 2>&1 | head -30
+```
+
+Expected: no errors in `SearchBar.tsx`.
+
+- [ ] **Step 3: Do NOT commit** — user commits manually.
+
+---
+
+## Task 3: Update page.tsx with search and pagination
+
+**Files:**
+- Modify: `src/app/admin/page.tsx`
+
+- [ ] **Step 1: Replace the full contents of page.tsx**
+
+Write the following to `src/app/admin/page.tsx`:
+
+```tsx
 import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
 import { isValidSession } from './session'
@@ -106,7 +324,7 @@ export default async function AdminPage({
     return <p style={{ padding: '2rem', color: 'var(--tx2)', fontFamily: 'var(--fb)' }}>Server configuration error.</p>
   }
 
-  const q = typeof params.q === 'string' ? params.q.trim().replace(/[,()]/g, '') : ''
+  const q = typeof params.q === 'string' ? params.q.trim() : ''
   const page = parsePage(params.page)
   const from = (page - 1) * PAGE_SIZE
   const to = from + PAGE_SIZE - 1
@@ -316,3 +534,40 @@ export default async function AdminPage({
     </main>
   )
 }
+```
+
+- [ ] **Step 2: Run TypeScript check**
+
+```bash
+npx tsc --noEmit 2>&1 | head -30
+```
+
+Expected: no errors.
+
+- [ ] **Step 3: Run all tests**
+
+```bash
+npm test
+```
+
+Expected: all 32 tests pass.
+
+- [ ] **Step 4: Manual verification**
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000/admin` and sign in, then verify:
+
+1. Search input appears above the message list
+2. Type a sender name → after 300ms the URL changes to `/admin?q=<name>` and results filter to matching messages
+3. Clear the input → URL returns to `/admin` and all messages appear
+4. Navigate directly to `/admin?q=foo` → search term pre-fills in the input and results are filtered (shareable URL works)
+5. If >20 messages exist: pagination controls appear; clicking a page number navigates and preserves `q` in the URL
+6. On page 1 the ← arrow is muted; on the last page the → arrow is muted
+7. Clicking a page number while a search is active keeps the search term in the URL (e.g. `/admin?q=foo&page=2`)
+
+- [ ] **Step 5: Do NOT commit** — user commits manually.
