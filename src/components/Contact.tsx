@@ -76,6 +76,9 @@ export default function Contact() {
         setEmail('')
         setMessage('')
         setShowToast(true)
+      } else if (res.status === 429) {
+        const data = await res.json().catch(() => ({}))
+        setFormError(data.error ?? 'Too many messages. Please try again tomorrow.')
       } else {
         setFormError('Something went wrong. Please try again.')
       }

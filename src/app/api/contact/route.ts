@@ -32,7 +32,10 @@ export async function POST(request: Request) {
 
   const supabase = createClient(supabaseUrl, supabaseKey)
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown'
+  const ip =
+    request.headers.get('x-real-ip') ??
+    request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ??
+    'unknown'
 
   if (ip !== 'unknown') {
     const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()

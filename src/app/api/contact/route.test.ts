@@ -158,4 +158,29 @@ describe('POST /api/contact', () => {
     expect(json.error).toBeTruthy()
     expect(mockInsert).not.toHaveBeenCalled()
   })
+
+  it('uses the last x-forwarded-for entry when multiple IPs are present', async () => {
+    mockGte.mockResolvedValue({ data: Array(5).fill({ id: 'x' }), error: null })
+
+    // 'spoofed' is first (client-controlled), '5.6.7.8' is last (proxy-appended real IP)
+    const res = await POST(makeRequest(
+      { name: 'Jane', email: 'jane@example.com', message: 'Hello, I have a project for you' },
+      { 'x-forwarded-for': 'spoofed, 5.6.7.8' }
+    ))
+
+    expect(res.status).toBe(429)
+    // Verify it queried by the last IP, not the first
+    expect(mockEq).toHaveBeenCalledWith('ip', '5.6.7.8')
+  })
+
+  it('uses x-real-ip header when present', async () => {
+    const res = await POST(makeRequest(
+      { name: 'Jane', email: 'jane@example.com', message: 'Hello, I have a project for you' },
+      { 'x-real-ip': '9.9.9.9' }
+    ))
+    const json = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(mockInsert).toHaveBeenCalledWith(expect.objectContaining({ ip: '9.9.9.9' }))
+  })
 })
