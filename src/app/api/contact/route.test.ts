@@ -73,4 +73,30 @@ describe('POST /api/contact', () => {
     expect(json.error).toBeTruthy()
     expect(mockFrom).not.toHaveBeenCalled()
   })
+
+  it('returns 400 when honeypot field is filled', async () => {
+    const res = await POST(makeRequest({
+      name: 'Jane',
+      email: 'jane@example.com',
+      message: 'Hello, I have a project for you',
+      website: 'http://spam.com',
+    }))
+    const json = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(json.error).toBeTruthy()
+    expect(mockFrom).not.toHaveBeenCalled()
+  })
+
+  it('accepts submission when honeypot field is empty string', async () => {
+    mockInsert.mockResolvedValue({ error: null })
+    const res = await POST(makeRequest({
+      name: 'Jane',
+      email: 'jane@example.com',
+      message: 'Hello, I have a project for you',
+      website: '',
+    }))
+    expect(res.status).toBe(200)
+    expect(mockFrom).toHaveBeenCalled()
+  })
 })

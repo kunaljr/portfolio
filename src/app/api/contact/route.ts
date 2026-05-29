@@ -2,11 +2,15 @@ import { createClient } from '@supabase/supabase-js'
 import { validateContact } from './validate'
 
 export async function POST(request: Request) {
-  let body: { name?: unknown; email?: unknown; message?: unknown }
+  let body: { name?: unknown; email?: unknown; message?: unknown; website?: unknown }
   try {
     body = await request.json()
   } catch {
     return Response.json({ error: 'Invalid request body.' }, { status: 400 })
+  }
+
+  if (typeof body.website === 'string' && body.website.length > 0) {
+    return Response.json({ error: 'Invalid request.' }, { status: 400 })
   }
 
   const { name, email, message } = body
