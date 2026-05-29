@@ -37,37 +37,23 @@ export async function POST(request: Request) {
     request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ??
     'unknown'
 
-  if (ip !== 'unknown') {
-    const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-    const { data, error: rateError } = await supabase
-      .from('contact_submissions')
-      .select('id')
-      .eq('ip', ip)
-      .gte('created_at', cutoff)
+  const { data: rpcData, error: rpcError } = await supabase.rpc('submit_contact', {
+    p_name: (name as string).trim(),
+    p_email: (email as string).trim(),
+    p_message: (message as string).trim(),
+    p_ip: ip,
+  })
 
-    if (rateError) {
-      return Response.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
-    }
-
-    if ((data?.length ?? 0) >= 5) {
-      return Response.json(
-        { error: 'Too many messages. Please try again tomorrow.' },
-        { status: 429 }
-      )
-    }
+  if (rpcError) {
+    return Response.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
   }
 
-  const { error: dbError } = await supabase
-    .from('contact_submissions')
-    .insert({
-      name: (name as string).trim(),
-      email: (email as string).trim(),
-      message: (message as string).trim(),
-      ip,
-    })
-
-  if (dbError) {
+  if (!rpcData || typeof rpcData.ok !== 'boolean') {
     return Response.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
+  }
+
+  if (!rpcData.ok) {
+    return Response.json({ error: 'Too many messages. Please try again tomorrow.' }, { status: 429 })
   }
 
   return Response.json({ ok: true })
