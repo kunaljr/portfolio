@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   const supabase = createClient(supabaseUrl, supabaseKey)
 
   const ip =
-    request.headers.get('x-vercel-forwarded-for') ??
+    request.headers.get('x-vercel-forwarded-for')?.split(',').at(0)?.trim() ??
     request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ??
     'unknown'
 
@@ -53,7 +53,10 @@ export async function POST(request: Request) {
   }
 
   if (!rpcData.ok) {
-    return Response.json({ error: 'Too many messages. Please try again tomorrow.' }, { status: 429 })
+    return Response.json(
+      { error: 'Too many messages. Please try again tomorrow.' },
+      { status: 429, headers: { 'Retry-After': '86400' } }
+    )
   }
 
   return Response.json({ ok: true })
