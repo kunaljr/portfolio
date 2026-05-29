@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   const supabase = createClient(supabaseUrl, supabaseKey)
 
   const ip =
-    request.headers.get('x-real-ip') ??
+    request.headers.get('x-vercel-forwarded-for') ??
     request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ??
     'unknown'
 

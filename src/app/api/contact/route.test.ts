@@ -173,10 +173,10 @@ describe('POST /api/contact', () => {
     expect(mockEq).toHaveBeenCalledWith('ip', '5.6.7.8')
   })
 
-  it('uses x-real-ip header when present', async () => {
+  it('uses x-vercel-forwarded-for header when present', async () => {
     const res = await POST(makeRequest(
       { name: 'Jane', email: 'jane@example.com', message: 'Hello, I have a project for you' },
-      { 'x-real-ip': '9.9.9.9' }
+      { 'x-vercel-forwarded-for': '9.9.9.9' }
     ))
     const json = await res.json()
 
