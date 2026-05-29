@@ -213,7 +213,7 @@ h1 em { color: var(--acc); font-style: normal; }
 .clink-val { font-size: 0.81rem; font-weight: 500; color: var(--tx); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cform-wrap { border-radius: var(--r); overflow: hidden; border: 0.5px solid var(--bdr); }
 .cform-accent { height: 3px; background: var(--acc); }
-.cform { background: var(--surf); padding: 1.4rem; }
+.cform { background: var(--surf); padding: 1.4rem; position: relative; }
 .fg { margin-bottom: 0.88rem; }
 .fg label { display: block; font-size: 0.76rem; font-weight: 500; color: var(--tx2); margin-bottom: 0.32rem; }
 .fg input, .fg textarea { width: 100%; background: var(--bg); border: 0.5px solid var(--bdr); color: var(--tx); padding: 0.6rem 0.85rem; border-radius: var(--r2); font-family: var(--fb); font-size: 0.86rem; outline: none; transition: border-color 0.2s; resize: none; display: block; }

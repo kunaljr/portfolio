@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   IconMail,
@@ -54,6 +54,7 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [showToast, setShowToast] = useState(false)
+  const websiteRef = useRef<HTMLInputElement>(null)
 
   async function handleSubmit() {
     const errs = validate(name, email, message)
@@ -67,7 +68,7 @@ export default function Contact() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, website: websiteRef.current?.value ?? '' }),
       })
 
       if (res.ok) {
@@ -160,6 +161,15 @@ export default function Contact() {
             <div className="cform-wrap">
               <div className="cform-accent" />
               <div className="cform">
+                <input
+                  ref={websiteRef}
+                  type="text"
+                  name="website"
+                  style={{ position: 'absolute', left: '-9999px', top: 0, width: 1, height: 1, overflow: 'hidden' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
                 <div className="fg">
                   <label htmlFor="f-name">Your name</label>
                   <input
