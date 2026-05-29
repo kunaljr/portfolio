@@ -73,6 +73,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "0d30a9e0946dcfa3",
+  },
 };
 
 // Hardcoded static object — no user input, no XSS risk.
