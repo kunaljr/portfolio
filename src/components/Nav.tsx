@@ -1,11 +1,32 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { IconMail, IconMenu2, IconX } from '@tabler/icons-react'
+import { ThemeToggle } from './ThemeToggle'
+
+const SECTIONS = ['about', 'exp', 'proj', 'skills', 'testimonials', 'contact']
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('')
 
   const close = () => setOpen(false)
+
+  useEffect(() => {
+    function onScroll() {
+      const navH = 70
+      let current = ''
+      for (const id of SECTIONS) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= navH) {
+          current = id
+        }
+      }
+      setActive(current)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <div className="nav-wrap">
@@ -15,12 +36,13 @@ export default function Nav() {
         </a>
         <div className="nav-r">
           <ul className="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#exp">Experience</a></li>
-            <li><a href="#proj">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about" className={active === 'about' ? 'active' : ''}>About</a></li>
+            <li><a href="#exp" className={active === 'exp' ? 'active' : ''}>Experience</a></li>
+            <li><a href="#proj" className={active === 'proj' ? 'active' : ''}>Projects</a></li>
+            <li><a href="#skills" className={active === 'skills' ? 'active' : ''}>Skills</a></li>
+            <li><a href="#contact" className={active === 'contact' ? 'active' : ''}>Contact</a></li>
           </ul>
+          <ThemeToggle />
           <a href="mailto:Kunalshelke123@gmail.com" className="nav-btn">
             <IconMail size={14} aria-hidden />
             Hire me

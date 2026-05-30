@@ -145,6 +145,33 @@ export default async function Image() {
               </div>
             ))}
           </div>
+
+          {/* CTA */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginTop: 36,
+            }}
+          >
+            <div
+              style={{
+                background: '#3B5BDB',
+                color: '#fff',
+                padding: '10px 28px',
+                borderRadius: 8,
+                fontSize: 20,
+                fontWeight: 700,
+                display: 'flex',
+              }}
+            >
+              View Portfolio →
+            </div>
+            <div style={{ color: '#6e7681', fontSize: 18, display: 'flex' }}>
+              kunalshelke.dev
+            </div>
+          </div>
         </div>
 
         {/* Right: photo */}
@@ -157,25 +184,19 @@ export default async function Image() {
             marginRight: 60,
           }}
         >
-          <div
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imgBase64}
+            width={260}
+            height={260}
             style={{
-              width: 260,
-              height: 260,
+              objectFit: 'cover',
+              objectPosition: 'center 10%',
               borderRadius: '50%',
-              overflow: 'hidden',
               border: '3px solid rgba(59,91,219,0.5)',
-              display: 'flex',
             }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imgBase64}
-              width={260}
-              height={260}
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              alt="Kunal Shelke"
-            />
-          </div>
+            alt="Kunal Shelke"
+          />
         </div>
       </div>
     ),

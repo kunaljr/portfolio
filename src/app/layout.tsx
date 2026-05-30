@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { ProgressBar } from "@/components/ProgressBar";
+import { BackToTop } from "@/components/BackToTop";
+import { CursorGlow } from "@/components/CursorGlow";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -17,12 +21,11 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-// TODO: replace with your actual deployed domain
 const SITE_URL = "https://kunalshelke.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Kunal Shelke — Senior Full Stack Engineer",
+  title: "Kunal Shelke — Senior Full Stack Engineer · React & Node.js",
   description:
     "Full Stack Engineer at Eccentric Engine — built AI tools for automotive (EchoAI), IoT fintech platforms, and OTT streaming products with React, NestJS, and GCP.",
   keywords: [
@@ -51,14 +54,14 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Kunal Shelke",
-    title: "Kunal Shelke — Senior Full Stack Engineer",
+    title: "Kunal Shelke — Senior Full Stack Engineer · React & Node.js",
     description:
       "Full Stack Engineer at Eccentric Engine — built AI tools for automotive (EchoAI), IoT fintech platforms, and OTT streaming products with React, NestJS, and GCP.",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kunal Shelke — Senior Full Stack Engineer",
+    title: "Kunal Shelke — Senior Full Stack Engineer · React & Node.js",
     description:
       "Full Stack Engineer at Eccentric Engine — built AI tools for automotive (EchoAI), IoT fintech platforms, and OTT streaming products with React, NestJS, and GCP.",
     creator: "@kunalshelke",
@@ -103,9 +106,8 @@ const jsonLd = {
     "Generative AI",
   ],
   sameAs: [
-    // TODO: replace with your actual LinkedIn / GitHub URLs
-    "https://linkedin.com/in/kunalshelke",
-    "https://github.com/kunalshelke",
+    "https://www.linkedin.com/in/kunal-shelke-47a5841a2/",
+    "https://github.com/kunaljr",
   ],
 };
 
@@ -115,14 +117,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${dmSans.variable}`}>
-      <body>
+    <html lang="en" className={`${plusJakartaSans.variable} ${dmSans.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Runs before paint to apply saved theme — prevents flash */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));})();` }} />
         {/* JSON-LD structured data — static hardcoded content, no XSS risk */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      </head>
+      <body>
+        <ProgressBar />
+        <CursorGlow />
         {children}
+        <BackToTop />
+        <Analytics />
       </body>
     </html>
   );

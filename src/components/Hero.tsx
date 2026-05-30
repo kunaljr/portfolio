@@ -1,4 +1,4 @@
-import { IconLayoutGrid, IconMail } from '@tabler/icons-react'
+import { IconLayoutGrid, IconMail, IconDownload } from '@tabler/icons-react'
 import Reveal from './Reveal'
 
 export default function Hero() {
@@ -25,6 +25,10 @@ export default function Hero() {
         <a href="#contact" className="btn-o">
           <IconMail size={15} aria-hidden />
           Get in touch
+        </a>
+        <a href="/Kunal-shelke-software-engineer.docx" download className="btn-o">
+          <IconDownload size={15} aria-hidden />
+          Resume
         </a>
       </div>
       <div className="stats">

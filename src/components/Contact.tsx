@@ -9,6 +9,8 @@ import {
   IconMapPin,
   IconArrowRight,
   IconSend,
+  IconCopy,
+  IconCheck,
 } from '@tabler/icons-react'
 import Reveal, { RevealGroup, RevealItem } from './Reveal'
 
@@ -54,7 +56,14 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [showToast, setShowToast] = useState(false)
+  const [copied, setCopied] = useState(false)
   const websiteRef = useRef<HTMLInputElement>(null)
+
+  function copyEmail() {
+    navigator.clipboard.writeText('Kunalshelke123@gmail.com')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   async function handleSubmit() {
     const errs = validate(name, email, message)
@@ -104,18 +113,23 @@ export default function Contact() {
               full-stack engineer who ships with precision — let&apos;s talk.
             </p>
             <div className="clinks">
-              <a href="mailto:Kunalshelke123@gmail.com" className="clink">
-                <div className="clink-ico"><IconMail size={14} aria-hidden /></div>
-                <div className="clink-body">
-                  <span className="clink-lbl">Email</span>
-                  <span className="clink-val">Kunalshelke123@gmail.com</span>
-                </div>
-                <IconArrowRight
-                  size={14}
-                  aria-hidden
-                  style={{ color: 'var(--tx3)', marginLeft: 'auto', flexShrink: 0 }}
-                />
-              </a>
+              <div className="clink">
+                <a href="mailto:Kunalshelke123@gmail.com" style={{ display: 'contents', textDecoration: 'none', color: 'inherit' }}>
+                  <div className="clink-ico"><IconMail size={14} aria-hidden /></div>
+                  <div className="clink-body">
+                    <span className="clink-lbl">Email</span>
+                    <span className="clink-val">Kunalshelke123@gmail.com</span>
+                  </div>
+                </a>
+                <button
+                  onClick={copyEmail}
+                  className={`copy-btn${copied ? ' copied' : ''}`}
+                  aria-label={copied ? 'Copied!' : 'Copy email address'}
+                  style={{ marginLeft: 'auto' }}
+                >
+                  {copied ? <IconCheck size={14} aria-hidden /> : <IconCopy size={14} aria-hidden />}
+                </button>
+              </div>
               <a
                 href="https://www.linkedin.com/in/kunal-shelke-47a5841a2/"
                 target="_blank"
