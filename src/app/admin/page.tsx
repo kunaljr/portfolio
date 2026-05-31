@@ -20,7 +20,12 @@ interface Submission {
   device?: string
   country?: string
   city?: string
+  region?: string
+  timezone?: string
+  isp?: string
   lang?: string
+  latitude?: number
+  longitude?: number
 }
 
 export default async function AdminPage({
@@ -382,7 +387,9 @@ export default async function AdminPage({
                         s.device,
                         s.browser,
                         s.os,
-                        s.city && s.country ? `${s.city}, ${s.country}` : s.country,
+                        [s.city, s.region, s.country].filter(Boolean).join(', ') || undefined,
+                        s.timezone,
+                        s.isp,
                         s.lang,
                       ].filter(Boolean).map(v => (
                         <span key={v} style={{
@@ -396,6 +403,24 @@ export default async function AdminPage({
                           {v}
                         </span>
                       ))}
+                      {s.latitude && s.longitude && (
+                        <a
+                          href={`https://www.google.com/maps?q=${s.latitude},${s.longitude}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontSize: '0.7rem',
+                            color: 'var(--acc)',
+                            background: 'var(--bg)',
+                            border: '0.5px solid var(--acc-b)',
+                            borderRadius: 'var(--r2)',
+                            padding: '0.15rem 0.5rem',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          {s.latitude.toFixed(4)}, {s.longitude.toFixed(4)} ↗
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>

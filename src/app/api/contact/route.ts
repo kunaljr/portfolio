@@ -21,7 +21,10 @@ function parseUA(ua: string) {
   return { os, browser, device }
 }
 
-async function getGeo(ip: string): Promise<{ country?: string; city?: string }> {
+async function getGeo(ip: string): Promise<{
+  country?: string; city?: string; region?: string
+  timezone?: string; isp?: string; latitude?: number; longitude?: number
+}> {
   if (!ip || ip === 'unknown' || ip === '127.0.0.1' || ip.startsWith('::')) return {}
   try {
     const controller = new AbortController()
@@ -29,8 +32,17 @@ async function getGeo(ip: string): Promise<{ country?: string; city?: string }> 
     const res = await fetch(`https://ipinfo.io/${ip}/json`, { signal: controller.signal })
     clearTimeout(t)
     if (!res.ok) return {}
-    const data = await res.json()
-    return { country: data.country, city: data.city }
+    const d = await res.json()
+    const [latitude, longitude] = (d.loc ?? '').split(',').map(Number)
+    return {
+      country:   d.country,
+      city:      d.city,
+      region:    d.region,
+      timezone:  d.timezone,
+      isp:       d.org,
+      latitude:  isNaN(latitude) ? undefined : latitude,
+      longitude: isNaN(longitude) ? undefined : longitude,
+    }
   } catch {
     return {}
   }
@@ -75,7 +87,7 @@ export async function POST(request: Request) {
   const ua = request.headers.get('user-agent') ?? ''
   const lang = request.headers.get('accept-language')?.split(',')[0] ?? null
   const { os, browser, device } = parseUA(ua)
-  const { country, city } = await getGeo(ip)
+  const { country, city, region, timezone, isp, latitude, longitude } = await getGeo(ip)
 
   const { data: rpcData, error: rpcError } = await supabase.rpc('submit_contact', {
     p_name: (name as string).trim(),
@@ -87,7 +99,12 @@ export async function POST(request: Request) {
     p_device: device,
     p_country: country ?? null,
     p_city: city ?? null,
+    p_region: region ?? null,
+    p_timezone: timezone ?? null,
+    p_isp: isp ?? null,
     p_lang: lang,
+    p_latitude: latitude ?? null,
+    p_longitude: longitude ?? null,
   })
 
   if (rpcError) {
@@ -121,7 +138,7 @@ export async function POST(request: Request) {
         from: 'kunalshelke.dev <onboarding@resend.dev>',
         to: 'kunalshelke123@gmail.com',
         subject: `New message from ${n}`,
-        text: `Name: ${n}\nEmail: ${e}\n\nMessage:\n${m}\n\n---\n${device} · ${browser} · ${os}${city ? ` · ${city}` : ''}${country ? `, ${country}` : ''}${lang ? ` · ${lang}` : ''}`,
+        text: `Name: ${n}\nEmail: ${e}\n\nMessage:\n${m}\n\n---\n${device} · ${browser} · ${os}${city ? ` · ${city}` : ''}${region ? `, ${region}` : ''}${country ? `, ${country}` : ''}${timezone ? ` (${timezone})` : ''}${isp ? `\nISP: ${isp}` : ''}${lang ? `\nLang: ${lang}` : ''}`,
       })
     }
   }
