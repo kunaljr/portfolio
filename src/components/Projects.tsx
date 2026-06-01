@@ -1,9 +1,15 @@
-import { IconBolt, IconDroplet, IconDeviceTv, IconCar } from '@tabler/icons-react'
+import { IconBolt, IconDroplet, IconDeviceTv, IconCar, IconArrowRight } from '@tabler/icons-react'
 import Reveal, { RevealGroup, RevealItem } from './Reveal'
+import Link from 'next/link'
 import { ReactNode } from 'react'
+import { projects as caseStudies } from '@/lib/projects'
 
-const projects: { icon: ReactNode; name: string; client: string; desc: string; tags: string[] }[] = [
+// CaseSlug is derived from lib/projects.ts — TypeScript will error here if a slug drifts.
+type CaseSlug = (typeof caseStudies)[number]['slug']
+
+const projects: { slug: CaseSlug; icon: ReactNode; name: string; client: string; desc: string; tags: string[] }[] = [
   {
+    slug: 'echoai',
     icon: <IconCar size={17} aria-hidden />,
     name: 'EchoAI',
     client: 'Eccentric · Automotive',
@@ -11,6 +17,7 @@ const projects: { icon: ReactNode; name: string; client: string; desc: string; t
     tags: ['GenAI', 'AI', 'React.js', 'NestJS', 'GCP'],
   },
   {
+    slug: 'stratumn',
     icon: <IconBolt size={17} aria-hidden />,
     name: 'Stratumn',
     client: 'Sia-Partners · Workflow SaaS',
@@ -18,6 +25,7 @@ const projects: { icon: ReactNode; name: string; client: string; desc: string; t
     tags: ['React.js', 'NestJS', 'GraphQL', 'AWS'],
   },
   {
+    slug: 'liqua',
     icon: <IconDroplet size={17} aria-hidden />,
     name: 'Liqua',
     client: 'Pegasus · IoT / Fintech',
@@ -25,6 +33,7 @@ const projects: { icon: ReactNode; name: string; client: string; desc: string; t
     tags: ['Vue 3', 'tRPC', 'GCP', 'Firestore'],
   },
   {
+    slug: 'ott',
     icon: <IconDeviceTv size={17} aria-hidden />,
     name: 'OTT Platform',
     client: 'Playbulous · EdTech / OTT',
@@ -51,6 +60,9 @@ export default function Projects() {
               <div className="tags">
                 {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
               </div>
+              <Link href={`/projects/${p.slug}`} className="pc-link">
+                Case study <IconArrowRight size={12} aria-hidden />
+              </Link>
             </RevealItem>
           ))}
         </RevealGroup>

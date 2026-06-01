@@ -81,7 +81,7 @@
 }
 
 /* ── BASE ── */
-html { scroll-behavior: smooth; }
+html[data-scroll-behavior="smooth"] { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--tx);
@@ -277,6 +277,19 @@ h1 em { color: var(--acc); font-style: normal; }
 .copy-btn:hover { color: var(--acc); }
 .copy-btn.copied { color: var(--grn); }
 
+/* ── PROJECT CARD LINK ── */
+.pc-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 0.75rem; font-size: 0.75rem; font-weight: 600; color: var(--acc); text-decoration: none; transition: gap 0.2s; }
+.pc-link:hover { gap: 7px; }
+
+/* ── BLOG CARD ── */
+.blog-card { background: var(--surf); border: 0.5px solid var(--bdr); border-radius: var(--r); padding: 1.25rem; transition: border-color 0.2s, background 0.2s; }
+.blog-card:hover { border-color: var(--bdr2); background: var(--bg); }
+
+/* ── PROSE (blog post) ── */
+.prose { color: var(--tx2); font-size: 0.9rem; line-height: 1.85; font-weight: 300; }
+.prose h2 { font-family: var(--fh); font-size: 1rem; font-weight: 800; color: var(--tx); margin: 2rem 0 0.6rem; letter-spacing: -0.01em; }
+.prose p { margin: 0 0 0.5rem; }
+
 /* ── FOOTER ── */
 footer { border-top: 0.5px solid var(--bdr); padding: 1.2rem var(--px); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .f-name { font-family: var(--fh); font-size: 0.82rem; font-weight: 700; color: var(--tx2); }
@@ -308,6 +321,35 @@ footer { border-top: 0.5px solid var(--bdr); padding: 1.2rem var(--px); display:
   .tgrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .cgrid { grid-template-columns: 1fr; }
   footer { flex-direction: column; text-align: center; }
+}
+
+/* ── PRINT ── */
+@media print {
+  .progress-bar, .cursor-glow, .back-top, .toast,
+  .hbtn, .theme-btn, .nav-btn, .mob-menu,
+  .btns, .acard-links, .cform-wrap, .badge .bdot,
+  .pc-link { display: none !important; }
+
+  * { animation: none !important; transition: none !important; box-shadow: none !important; }
+  body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+  body::before { display: none; }
+  nav { background: #fff !important; border-bottom: 1pt solid #ddd; backdrop-filter: none; position: static; }
+  .logo { color: #000 !important; }
+  .logo span { color: #3B5BDB !important; }
+  .nav-links a { color: #444 !important; }
+  a { color: #000; text-decoration: none; }
+  .w { max-width: 100%; padding: 0 1rem; }
+  .sep { background: #ddd; }
+  .alt-bg { background: #f8f8f8 !important; }
+  .surf, .acard, .tc, .sc, .pc, .tcard { background: #fff !important; border-color: #ddd !important; }
+  h1, h2, .snum, .tc-role, .pc-name, .tname, .aname { color: #000 !important; }
+  h1 em, .logo span, .stag, .tc-co, .arole, .pc-client, .sc-label { color: #3B5BDB !important; }
+  .tx2, .tx3, .slbl, .tc-date, .tc-proj, .bul li, .ap, .pc-desc, .tquote, .trole { color: #444 !important; }
+  .tag { background: #eef !important; color: #3B5BDB !important; border-color: #ccd !important; }
+  .pill { background: #f0f0f0 !important; color: #444 !important; }
+  footer { border-top: 1pt solid #ddd; }
+  .pgrid { grid-template-columns: repeat(2, 1fr) !important; }
+  .sgrid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
 /* ── MOBILE <480px ── */
