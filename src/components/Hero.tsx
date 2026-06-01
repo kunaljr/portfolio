@@ -1,5 +1,6 @@
 import { IconLayoutGrid, IconMail, IconDownload } from '@tabler/icons-react'
 import Reveal from './Reveal'
+import { StatCounter } from './StatCounter'
 
 export default function Hero() {
   return (
@@ -33,19 +34,19 @@ export default function Hero() {
       </div>
       <div className="stats">
         <div className="stat">
-          <div className="snum">5+</div>
+          <div className="snum"><StatCounter target={5} suffix="+" /></div>
           <div className="slbl">Years exp</div>
         </div>
         <div className="stat">
-          <div className="snum">40%</div>
+          <div className="snum"><StatCounter target={40} suffix="%" /></div>
           <div className="slbl">Perf. gains</div>
         </div>
         <div className="stat">
-          <div className="snum">100%</div>
+          <div className="snum"><StatCounter target={100} suffix="%" /></div>
           <div className="slbl">On-time delivery</div>
         </div>
         <div className="stat">
-          <div className="snum">3</div>
+          <div className="snum"><StatCounter target={3} /></div>
           <div className="slbl">Domains shipped</div>
         </div>
       </div>

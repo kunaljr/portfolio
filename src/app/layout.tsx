@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { ProgressBar } from "@/components/ProgressBar";
 import { BackToTop } from "@/components/BackToTop";
 import { CursorGlow } from "@/components/CursorGlow";
+import { PageTransition } from "@/components/PageTransition";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -117,7 +118,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${plusJakartaSans.variable} ${dmSans.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         {/* Runs before paint to apply saved theme — prevents flash */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));})();` }} />
@@ -127,7 +128,7 @@ export default function RootLayout({
       <body>
         <ProgressBar />
         <CursorGlow />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <BackToTop />
         <Analytics />
       </body>
