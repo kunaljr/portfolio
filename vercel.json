@@ -1,5 +1,11 @@
 {
   "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/keepalive",
+      "schedule": "0 12 */5 * *"
+    }
+  ],
   "regions": ["bom1"],
   "headers": [
     {
