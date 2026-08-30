@@ -1,9 +1,10 @@
 import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
 import { isValidSession } from './session'
-import { login, logout, markAsRead, deleteSubmission } from './actions'
+import { logout, markAsRead, deleteSubmission } from './actions'
 import { AdminPageTitle } from './AdminPageTitle'
 import { SearchBar } from './SearchBar'
+import { LoginForm } from './LoginForm'
 import { parsePage, buildPaginationPages } from './paginationUtils'
 
 const PAGE_SIZE = 10
@@ -46,69 +47,7 @@ export default async function AdminPage({
         background: 'var(--bg)',
         fontFamily: 'var(--fb)',
       }}>
-        <div style={{
-          width: '100%',
-          maxWidth: 360,
-          padding: '2rem',
-          background: 'var(--surf)',
-          border: '0.5px solid var(--bdr)',
-          borderRadius: 'var(--r)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-        }}>
-          <h1 style={{
-            fontFamily: 'var(--fh)',
-            fontSize: '1.2rem',
-            fontWeight: 800,
-            color: 'var(--tx)',
-            margin: 0,
-          }}>
-            Admin
-          </h1>
-          {params.error && (
-            <p style={{ color: '#e53e3e', fontSize: '0.85rem', margin: 0 }}>
-              Incorrect password.
-            </p>
-          )}
-          <form action={login} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              autoFocus
-              style={{
-                padding: '0.6rem 0.75rem',
-                border: '0.5px solid var(--bdr)',
-                borderRadius: 'var(--r2)',
-                background: 'var(--bg)',
-                color: 'var(--tx)',
-                fontFamily: 'var(--fb)',
-                fontSize: '0.9rem',
-                outline: 'none',
-                width: '100%',
-                boxSizing: 'border-box',
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                padding: '0.6rem',
-                background: 'var(--acc)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 'var(--r2)',
-                fontFamily: 'var(--fb)',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Sign in
-            </button>
-          </form>
-        </div>
+        <LoginForm error={!!params.error} />
       </main>
     )
   }
